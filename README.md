@@ -25,8 +25,17 @@ These instructions will help you get a copy of the project up and running on you
     git submodule init
     git submodule update
     ~~~
+3. Selecting a task:
+    ~~~bash
+    # Task 1
+    cd Task1
+    # Task 2
+    cd Task2
+    # Task 3
+    cd Task3
+    ~~~
 
-3. Build the project using `make`:
+4. Build the project using `make`:
     ~~~bash
     make
     ~~~
@@ -40,20 +49,92 @@ The first task introduces a simple C++ application that processes log files. The
 
 - Reading log entries from a file.
 - Displaying log content to the console.
+- Task 1 is Built on three different parts
 
 ### Usage
+- Select part:
+    ~~~bash
+    # Part 1
+    cd part1
 
-Run the application with:
+    # Part 2
+    cd part2
 
-#### Make
-~~~bash
-make
+    # Part 3
+    cd part3
+    ~~~
+- Run the application with:
+
+    #### Make
+    ~~~bash
+    make
+    ~~~
+
+    #### Build
+    ~~~ bash
+    ./build/app
+    ~~~
+
+## Part 1
+#### Function:
+~~~c++
+std::string line(const std::string& logLine) {
+    size_t startPos = logLine.find(": ") + 2; // Find the start of the message just after ": "
+    if (startPos != std::string::npos) {
+        return logLine.substr(startPos); // Extract the message part
+    }
+    return ""; // Return an empty string if the format is incorrect
+}
+~~~
+#### Expected Output:
+~~~
+=> "Invalid operation"
 ~~~
 
-#### Build
-~~~ bash
-./build/app
+<br>
+
+## Part 2
+#### Function:
+~~~c++
+std::string level(const std::string& logLine) {
+    size_t start = logLine.find('[') + 1;
+    size_t end = logLine.find(']');
+
+    if (start != std::string::npos && end != std::string::npos && end > start) {
+        std::string logLevel = logLine.substr(start, end - start);
+        // Convert to uppercase
+        std::transform(logLevel.begin(), logLevel.end(), logLevel.begin(), [](unsigned char c) { return std::toupper(c); });
+        return logLevel;
+    }
+    return ""; // Return an empty string if the format is incorrect
+}
 ~~~
+#### Expected Output:
+~~~
+=> "ERROR"
+~~~
+## Part 3
+#### Function:
+~~~c++
+std::string reformat(const std::string& logLine) {
+    size_t start = logLine.find('[') + 1;
+    size_t end = logLine.find(']');
+    size_t messageStart = logLine.find(": ") + 2;
+
+    if (start != std::string::npos && end != std::string::npos && messageStart != std::string::npos) {
+        std::string logLevel = logLine.substr(start, end - start);
+        std::string message = logLine.substr(messageStart);
+
+        return message + " (" + logLevel + ")";
+    }
+    return ""; // Return an empty string if the format is incorrect
+}
+~~~
+#### Expected Output:
+~~~
+=> "Operation completed (INFO)"
+~~~
+
 <br>
 
 # Task 2: Advanced Log Processing and Testing
@@ -77,6 +158,39 @@ make
 #### Build
 ~~~ bash
 ./build/app
+~~~
+<br>
+
+## Functionality
+
+#### How the funtions work through log.hpp and log.cpp:
+~~~c++
+#include "log.hpp"
+#include <iostream>
+
+int main() {
+    Log log;
+
+    // Process each log entry in the file
+    while (log.next()) {
+        std::string reformatted = log.reformat();  // Get the reformatted log entry
+        std::string line = log.line();             // Get the log message
+        std::string level = log.level();           // Get the log level
+
+        //Print the reformatted log entry, original log message, and log level
+        std::cout << reformatted << std::endl;
+        std::cout << line << std::endl;
+        std::cout << level << std::endl;
+    }
+
+    return 0;
+}
+~~~
+#### Expected Output:
+~~~
+=> "Invalid operation (ERROR)"
+=> "Invalid operation"
+=> "ERROR"
 ~~~
 
 <br>
@@ -103,6 +217,71 @@ To run the comprehensive test suite, use the command:
 ./build/log_tests
 ~~~
 This will execute an extended series of tests, providing detailed output on each test's status and highlighting any areas that require attention.
+
+<br>
+
+## Tests
+#### 1. Test 1:
+~~~c++
+// Test 1: Successfully opening a log file
+DEFINE_TEST_G(LogOpenTest, Log) {
+    Log log;
+    bool success = log.create_log("log.in");
+    TEST_MESSAGE(success == true, "Failed to open log file!");
+}
+~~~
+
+<br>
+
+#### 2. Test 2:
+~~~c++
+// Test 2: Fail to open a non-existent log file
+DEFINE_TEST_G(LogOpenFailTest, Log) {
+    Log log;
+    bool success = log.create_log("nonexistent_log.in");
+    TEST_MESSAGE(success == false, "Should fail to open a non-existent log file!");
+}
+~~~
+
+<br>
+
+#### 3. Test 3:
+~~~c++
+// Test 3: Successfully read a line from the log file
+DEFINE_TEST_G(LogReadTest, Log) {
+    Log log;
+    log.create_log("log.in");
+    bool success = log.next();
+    TEST_MESSAGE(success == true, "Failed to read a line from the log file!");
+}
+~~~
+
+<br>
+
+#### 4. Test 4:
+~~~c++
+// Test 4: Reach the end of the log file
+DEFINE_TEST_G(LogEOFTest, Log) {
+    Log log;
+    log.create_log("log.in");
+    while (log.next()); // Read until the end
+    TEST_MESSAGE(!log.next(), "Did not reach the end of the log file as expected!");
+}
+~~~
+
+<br>
+
+#### 5. Test 5:
+~~~c++
+// Test 5: Verify the content of the log line
+DEFINE_TEST_G(LogContentTest, Log) {
+    Log log;
+    log.create_log("log.in");
+    log.next(); // Assuming the first line is what we want to test
+    string line = log.line();
+    TEST_MESSAGE(line == "Expected log line content", "Log line content did not match expected!");
+}
+~~~
 
 <br>
 
