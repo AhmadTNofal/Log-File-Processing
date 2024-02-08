@@ -56,10 +56,8 @@ The first task introduces a simple C++ application that processes log files. The
     ~~~bash
     # Part 1
     cd part1
-
     # Part 2
     cd part2
-
     # Part 3
     cd part3
     ~~~
