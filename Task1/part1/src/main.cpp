@@ -3,7 +3,7 @@
 #include <string>
 
 // Function to extract the message from a log line
-std::string extractMessage(const std::string& logLine) {
+std::string line(const std::string& logLine) {
     size_t startPos = logLine.find(": ") + 2; // Find the start of the message just after ": "
     if (startPos != std::string::npos) {
         return logLine.substr(startPos); // Extract the message part
@@ -17,7 +17,7 @@ int main() {
 
     if (logFile.is_open()) {
         while (getline(logFile, logLine)) { // Read each line from the file
-            std::string message = extractMessage(logLine);
+            std::string message = line(logLine);
             std::cout << message << std::endl; // Output the extracted message
         }
         logFile.close(); // Close the file when done
