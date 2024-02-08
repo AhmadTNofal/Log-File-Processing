@@ -30,6 +30,7 @@ These instructions will help you get a copy of the project up and running on you
     ~~~bash
     make
     ~~~
+<br>
 
 ## Task 1: Basic Log Processing
 
@@ -53,6 +54,7 @@ make
 ~~~ bash
 ./build/app
 ~~~
+<br>
 
 # Task 2: Advanced Log Processing and Testing
 Building on Task 1, this task enhances the log processing application with advanced features, by introducing log functionalities.
@@ -77,6 +79,7 @@ make
 ./build/app
 ~~~
 
+<br>
 
 # Task 3: Comprehensive Testing and Error Handling
 This task extends the testing framework established in Task 2 and improves the application's robustness by implementing comprehensive error handling mechanisms.
