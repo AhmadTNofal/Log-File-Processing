@@ -104,6 +104,8 @@ To run the comprehensive test suite, use the command:
 ~~~
 This will execute an extended series of tests, providing detailed output on each test's status and highlighting any areas that require attention.
 
+<br>
+
 # Additional Instructions:
 - Ensure that all prerequisites are met before running the tests, including any required setup or configuration.
 - Review the test output carefully to identify and resolve any issues that may arise, ensuring the log processing application is reliable and robust under various conditions.
