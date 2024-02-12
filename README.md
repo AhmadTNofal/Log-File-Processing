@@ -136,7 +136,8 @@ std::string reformat(const std::string& logLine) {
 <br>
 
 # Task 2: Advanced Log Processing and Testing
-Building on Task 1, this task enhances the log processing application with advanced features, by introducing log functionalities.
+- Building on Task 1, this task enhances the log processing application with advanced features, by introducing log functionalities.
+- Showing all the parts from task 1 mereged into one using log.hpp and log.cpp and running them in the main.cpp.
 
 ## Features
 - **Advanced Log Processing:** Implements sophisticated log file parsing and data extraction techniques to handle complex log formats.
@@ -280,6 +281,11 @@ DEFINE_TEST_G(LogContentTest, Log) {
     TEST_MESSAGE(line == "Expected log line content", "Log line content did not match expected!");
 }
 ~~~
+<br>
+
+### Output From Tests:
+
+![output Task 3](images/image.png)
 
 <br>
 
