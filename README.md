@@ -16,7 +16,7 @@ These instructions will help you get a copy of the project up and running on you
 
 1. Clone the repository and navigate into the project directory:
     ~~~bash
-    git clone https://gitlab.uwe.ac.uk/a5-hasan/iot_starter.git
+    https://github.com/AhmadTNofal/Log-File-Processing.git
     cd iot_starter
     ~~~
 
